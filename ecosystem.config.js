@@ -1,5 +1,3 @@
-const secrets = require('./config/secrets.js');
-
 module.exports = {
   apps : [{
     name: 'unique-inventory-api',
@@ -26,7 +24,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:peter-traversa/unique-inventory-api.git',
       path : '/var/www/unique-inventory-api',
-      'pre-deploy-local': `rsync -r ./config/secrets.js ${secrets.deployUser}@${secrets.deployUrl}:/var/www/config-to-move/`,
+      'pre-deploy-local': `npm run copy-secrets-to-server`,
       'post-deploy': 'rsync -r /var/www/config-to-move/secrets.js /var/www/unique-inventory-api/config/secrets.js && npm install && npx pm2 reload ecosystem.config.js --env production'
     }
   }

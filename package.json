@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "ENV_TAG=prod node app.js",
-    "dev": "PORT=3000 ENV_TAG=dev nodemon app.js"
+    "dev": "PORT=3000 ENV_TAG=dev nodemon app.js",
+    "copy-secrets-to-server": "node scripts/copy-secrets-to-server.js"
   },
   "author": "",
   "license": "ISC",
