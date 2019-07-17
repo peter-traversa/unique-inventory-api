@@ -30,10 +30,11 @@ module.exports = {
     production : {
       // key  : '~/.ssh/digital_ocean_key_pair_name',
       user : 'root',
-      host : '162.243.32.121',
+      host : secrets.deployUrl,
       ref  : 'origin/master',
       repo : 'git@github.com:peter-traversa/unique-inventory-api.git',
       path : '/var/www/unique-inventory-api',
+      'pre-deploy-local' : 'echo ho ho',
       'post-deploy' : 'npm install && npx pm2 reload ecosystem.config.js --env production'
     }
   }
