@@ -9,7 +9,7 @@ let mongoose = require('mongoose');
 let apiRoutes = require("./routes/api");
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 80;
 
 // Configure bodyparser to handle post requests
 app.use(bodyParser.urlencoded({

@@ -12,7 +12,7 @@ exports.index = function (req, res) {
         }
         res.json({
             status: "success",
-            message: "Thoughts retrieved successfully",
+            message: "Thoughts gotten.",
             data: thoughts
         });
     });

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ENV_TAG=prod node app.js",
-    "dev": "ENV_TAG=dev nodemon app.js"
+    "dev": "PORT=3000 ENV_TAG=dev nodemon app.js"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +16,7 @@
     "mongoose": "^5.6.4"
   },
   "devDependencies": {
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "pm2": "^3.5.1",
   }
 }
