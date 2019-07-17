@@ -26,7 +26,7 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:peter-traversa/unique-inventory-api.git',
       path : '/var/www/unique-inventory-api',
-      'pre-deploy-local' : `rsync -av --progress ./config/secrets.js ${secrets.deployUser}@${secrets.deployUrl}:/var/www/config_to_copy`,
+      'pre-deploy-local' : `rsync -av --progress ./config/secrets.js ${secrets.deployUser}@${secrets.deployUrl}:/var/www/config_to_copy/secrets.js`,
       'post-deploy' : 'mv /var/www/config_to_copy/secrets.js /var/www/unique-inventory-api/config/secrets.js && npm install && npx pm2 reload ecosystem.config.js --env production'
     }
   }
