@@ -18,9 +18,9 @@ module.exports = {
   }],
   deploy : {
     production : {
-      key  : secrets.sshKeyPath,
-      user : secrets.deployUser,
-      host : secrets.deployUrl,
+      key  : '~/.ssh/digital_ocean_key_pair_name',
+      user : 'root',
+      host : '162.243.32.121',
       ref  : 'origin/master',
       repo : 'git@github.com:peter-traversa/unique-inventory-api.git',
       path : '/var/www/unique-inventory-api',
