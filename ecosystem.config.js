@@ -1,19 +1,11 @@
 const secrets = require('./config/secrets.js');
 
-console.log('hello from ecosystem');
-console.log(secrets);
-
 module.exports = {
   apps : [{
     name: 'unique-inventory-api',
     script: 'app.js',
-
-    // Options reference: https://pm2.io/doc/en/runtime/reference/ecosystem-file/
-    // args: 'one two',
-    // instances: 1,
     autorestart: true,
     watch: true,
-    // max_memory_restart: '1G',
     env: {
       NODE_ENV: 'development',
       PORT: '3000',
@@ -28,13 +20,13 @@ module.exports = {
   }],
   deploy : {
     production : {
-      // key  : '~/.ssh/digital_ocean_key_pair_name',
-      user : 'root',
+      key  : secrets.sshKeyPath,
+      user : secrets.deployUser,
       host : secrets.deployUrl,
       ref  : 'origin/master',
       repo : 'git@github.com:peter-traversa/unique-inventory-api.git',
       path : '/var/www/unique-inventory-api',
-      'pre-deploy-local' : 'echo ho ho',
+      'pre-deploy-local' : `rsync -av --progress ./config ${secrets.deployUser}@${secrets.deployUrl}:/var/www/unique-inventory-api/config`,
       'post-deploy' : 'npm install && npx pm2 reload ecosystem.config.js --env production'
     }
   }
