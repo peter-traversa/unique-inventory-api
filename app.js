@@ -18,6 +18,14 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
+// handle errors, such as ill-formed JSON
+app.use(function (err, req, res, next) {
+    res.status(500).json({
+        ok: false,
+        error: err.message
+    })
+  })
+
 // connect to mongoDB
 mongoose.connect(`mongodb://${secrets.mongoUsername}:${secrets.mongoPassword}@${secrets.mongoUrl}/${secrets.mongoDbs}`, {
     useNewUrlParser: true,

@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 // define Schema
 var thoughtSchema = mongoose.Schema({
-  thought_id: Number,
+  userId: String,
   thought: String,
   tags: Array
 });
