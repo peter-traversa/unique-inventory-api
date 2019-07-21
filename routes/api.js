@@ -8,16 +8,16 @@ router.get('/', function (req, res) {
   });
 });
 
-var thoughtsController = require('../controllers/thoughtController');
+var adaptiveController = require('./adaptiveController')
 
 router.route('/thoughts')
-  .get(thoughtsController.index)
-  .post(thoughtsController.new);
+  .get(adaptiveController.index(Thought))
+  .post(adaptiveController.new(Thought));
     
 router.route('/thoughts/:id')
-  .get(thoughtsController.view)
-  .patch(thoughtsController.update)
-  .put(thoughtsController.update)
-  .delete(thoughtsController.delete);
+  .get(adaptiveController.view(Thought))
+  .patch(adaptiveController.update(Thought))
+  .put(adaptiveController.update(Thought))
+  .delete(adaptiveController.delete(Thought));
 
 module.exports = router;
