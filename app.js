@@ -13,36 +13,42 @@ const port = process.env.PORT || 80;
 
 // Configure bodyparser to handle post requests
 app.use(bodyParser.urlencoded({
-   extended: true
+  extended: true
 }));
 
 app.use(bodyParser.json());
 
 // handle errors, such as ill-formed JSON
 app.use(function (err, req, res, next) {
-    res.status(500).json({
-        ok: false,
-        error: err.message
-    })
-  })
+	res.status(500).json({
+		ok: false,
+		error: err.message
+	})
+});
 
 // connect to mongoDB
 mongoose.connect(`mongodb://${secrets.mongoUsername}:${secrets.mongoPassword}@${secrets.mongoUrl}/${secrets.mongoDbs}`, {
-    useNewUrlParser: true,
-    connectTimeoutMS: 1000
+	useNewUrlParser: true,
+	connectTimeoutMS: 1000
 }).catch((err) => {
-    console.log('unable to connect to mongoDB.');
-    console.error(err);
+	console.log('unable to connect to mongoDB.');
+	console.error(err);
 });;
 
 var db = mongoose.connection;
 
 mongoose.connection.on('open', function (ref) {
-    console.log('Connected to mongo server.');
+	console.log('Connected to mongo server.');
 });
 
  db.once('open', function() {
-    console.log("Connected function...");
+	console.log("Connected function...");
+});
+
+app.get('/', function (req, res) {
+	res.json({
+		message: `API is working.`
+	});
 });
 
 // Use Api routes in the App

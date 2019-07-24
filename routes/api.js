@@ -2,12 +2,6 @@ Thought = require('../schemas/thoughtSchema');
 
 let router = require('express').Router();
 
-router.get('/', function (req, res) {
-  res.json({
-    message: 'Express API is working.'
-  });
-});
-
 var adaptiveController = require('./adaptiveController')
 
 router.route('/thoughts')
