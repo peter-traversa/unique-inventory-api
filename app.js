@@ -1,29 +1,42 @@
+// config
 require('custom-env').env(process.env.ENV_TAG);
 const secrets = require('./config/secrets.js');
-
-const express = require('express');
-const path = require('path');
-
-let bodyParser = require('body-parser');
-let mongoose = require('mongoose');
-let apiRoutes = require("./routes/api");
-
-const app = express();
 const port = process.env.PORT || 80;
 
-// Configure bodyparser to handle post requests
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+// helpers
+const path = require('path');
+const jwt = require('jsonwebtoken');
 
+// server tools
+const express = require('express');
+const mongoose = require('mongoose');
+
+// express middleware
+const bodyParser = require('body-parser');
+const logger = require('morgan');
+
+// routes
+const apiRoutes = require("./routes/api");
+const userRoutes = require('./routes/user');
+
+// express set up
+const app = express();
+
+app.set('jwtSecretKey', secrets.jwtSecretKey);
+app.use(logger('dev'));
+
+// handle urlencoded and json post requests
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 app.use(bodyParser.json());
 
-// handle errors, such as ill-formed JSON
-app.use(function (err, req, res, next) {
-	res.status(500).json({
-		ok: false,
-		error: err.message
-	})
+// handle errors
+app.use(function(err, req, res, next) {
+  if(err.status === 404)
+  res.status(404).json({message: "Not found"});
+  else 
+    res.status(500).json({ok: false, error: err.message});
 });
 
 // connect to mongoDB
@@ -45,13 +58,32 @@ mongoose.connection.on('open', function (ref) {
 	console.log("Connected function...");
 });
 
+
+// routing
 app.get('/', function (req, res) {
 	res.json({
 		message: `API is working.`
 	});
 });
 
-// Use Api routes in the App
-app.use('/api', apiRoutes);
+// public routes
+app.use('/users', userRoutes);
+
+// private routes
+function validateUser(req, res, next) {
+  jwt.verify(req.headers['x-access-token'], req.app.get('jwtSecretKey'), function(err, decoded) {
+
+    if (err) {
+      res.json({status:"error", message: err.message, data:null});
+    }else{
+      // add user id to request
+      req.body.userId = decoded.id;
+      req.body.email = decoded.email;
+      next();
+    }
+  });
+}
+
+app.use('/api', validateUser, apiRoutes);
 
 app.listen(port, () => console.log(`Listening on port ${port}...`));
