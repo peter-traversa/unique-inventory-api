@@ -12,6 +12,8 @@ module.exports = {
           res.json({
             status: "success",
             message: "Documents retrieved.",
+            userAccessing: req.body.email || "?",
+            userIdAccessing: req.body.userId || "?",
             data: documents
           });
         });

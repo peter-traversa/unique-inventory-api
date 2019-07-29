@@ -1,8 +1,8 @@
-Thought = require('../schemas/thoughtSchema');
+Thought = require('../models/thought');
 
 let router = require('express').Router();
 
-var adaptiveController = require('./adaptiveController')
+var adaptiveController = require('../controllers/adaptiveController')
 
 router.route('/thoughts')
   .get(adaptiveController.index(Thought))

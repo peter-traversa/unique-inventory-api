@@ -8,7 +8,7 @@ var thoughtSchema = mongoose.Schema({
 });
 
 // Export Contact model
-var Thought = module.exports = mongoose.model('thought', thoughtSchema);
+var Thought = module.exports = mongoose.model('Thought', thoughtSchema);
 
 module.exports.get = function (callback, limit) {
   Thought.find(callback).limit(limit);
