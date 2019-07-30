@@ -54,10 +54,19 @@ mongoose.connection.on('open', function (ref) {
 	console.log('Connected to mongo server.');
 });
 
- db.once('open', function() {
+db.once('open', function() {
 	console.log("Connected function...");
 });
 
+app.use('/', function (req, res, next) {
+  console.log('sample middleware');
+  next();
+});
+
+app.use(function(req, res, next) {
+  console.log('sample middleware 2');
+  next();
+})
 
 // routing
 app.get('/', function (req, res) {
@@ -65,6 +74,7 @@ app.get('/', function (req, res) {
 		message: `API is working.`
 	});
 });
+
 
 // public routes
 app.use('/users', userRoutes);
